@@ -43,20 +43,20 @@ body {
       box-shadow: 0px 3px 0px 0px var(--font-color) !important;
       position: relative;
     }
+
     .tab>ul>li>a {
       align-content: center;
     }
 
     .file-manager {
-      right: 0;
-      top: 0;
-      bottom: 0;
-      position: absolute;
-      width: 2em;
+      position: sticky;
+      left: 92%;
+      height: 100%;
       padding-left: 0.5em;
       box-shadow: -3px 0px 0px 0px var(--font-color);
       align-content: center;
       cursor: pointer;
+      background-color: var(--bg-color);
     }
   }
 
@@ -105,7 +105,7 @@ body {
     box-shadow: 3px 0px 0px 0px var(--font-color);
     overflow-x: scroll;
   }
-  
+
   .file-manager {
     display: none;
   }
@@ -166,13 +166,13 @@ main {
         margin-right: 100vw;
       }
 
-      pre{
+      pre {
         background-color: var(--bg-color) !important;
         padding: 10px;
         width: calc(100% - 40px);
       }
 
-      code, 
+      code,
       blockquote {
         background-color: var(--bg-color) !important;
         width: calc(100% - 50px);
@@ -182,7 +182,7 @@ main {
         position: relative;
       }
 
-      pre>code{
+      pre>code {
         background-color: transparent !important;
         color: var(--font-color);
       }
@@ -193,7 +193,7 @@ main {
         background-color: #b7c2fd40 !important;
         color: #b7c2fd;
       }
-      
+
       blockquote::before {
         background-color: #82aaff;
         width: 3.5px;
