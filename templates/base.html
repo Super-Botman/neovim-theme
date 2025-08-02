@@ -28,7 +28,7 @@
 
 {%- if config.extra.background_image -%}
 
-<body onkeydown="exec(event)" style="background-image: {{ config.extra.background_image }}; ">
+<body onkeydown='exec(event)' style='background-image: url("{{ config.extra.background_image }}")'>
   {%- else -%}
 
   <body onkeydown='exec(event)' style='background-image: url("/assets/background.jpg");'>

@@ -2,21 +2,16 @@
 
 {%- block content -%}
 <ul class="section">
-  {% set tabindex = -1 %}
-
-  <li class="section"><a href='../' tabindex="{{tabindex}}">../</a></li>
-  {% set tabindex= tabindex - 1 %}
-  <li class="section"><a class="selected" href='./' tabindex="{{tabindex}}">./</a></li>
+  <li class="section"><a href='../' tabindex="0">../</a></li>
+  <li class="section"><a class="selected" href='./' tabindex="0">./</a></li>
 
   {%- for section in section.subsections -%}
   {%- set section = get_section(path=section) -%}
-  {% set_global tabindex = tabindex - 1 %}
-  <li class="section"><a href='{{ section.permalink | safe }}' tabindex="{{tabindex}}">{{ section.title }}/ </a></li>
+  <li class="section"><a href='{{ section.permalink | safe }}' tabindex="0">{{ section.title }}/ </a></li>
   {%- endfor -%}
 
   {%- for page in section.pages -%}
-  {% set_global tabindex = tabindex - 1 %}
-  <li class="post"><a href='{{ page.permalink | safe }}' tabindex="{{tabindex}}">{{ page.title }}</a></li>
+  <li class="post"><a href='{{ page.permalink | safe }}' tabindex="0">{{ page.title }}</a></li>
   {%- endfor -%}
 </ul>
 {%- endblock content -%}

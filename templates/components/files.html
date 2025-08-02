@@ -1,26 +1,24 @@
 {% block files %}
 <ul>
   {%- set root_section = get_section(path="_index.md") -%}
-  {% set_global tabindex = -1 %}
 
   {% set pages = root_section.pages | sort(attribute="title")%}
   {%- for p in pages %}
-  {%- set_global tabindex = tabindex - 1 -%}
   <li class="file">
     <span><a {% if page and p == page -%}class="selected"{%- endif -%}
       href='{{ p.permalink | safe }}'
-      tabindex="{{ tabindex }}">  {{ p.title }}</a></span>
+      tabindex="0">  {{ p.title }}</a></span>
   </li>
   {%- endfor -%}
 
   {% if root_section.subsections %}
-    {{- self::fs(root_section=root_section, tabindex=tabindex) -}}
+    {{- self::fs(root_section=root_section) -}}
   {% endif %}
 </ul>
 {% endblock %}
 
 
-{%- macro fs(root_section, tabindex, folder=False) -%}
+{%- macro fs(root_section, folder=False) -%}
 
 {% if root_section.subsections %}
 
@@ -34,10 +32,9 @@
   <li class="folder">
   {%- endif -%}
     <span>{% if folder %}└──{%- endif %}
-      {% set_global tabindex = tabindex - 1 %}
       <a {% if section and s == section -%}class="selected"{%- endif -%}
         href='{{s.permalink | safe }}'
-        tabindex="{{ tabindex }}">  {{ s.title }}
+        tabindex="0">  {{ s.title }}
       </a>
     </span>
 
@@ -46,10 +43,9 @@
       {% for p in pages -%}
       <li class="file">
         <span>└──
-          {%- set_global tabindex = tabindex - 1 %}
           <a {% if page and p == page -%}class="selected"{%- endif -%}
             href='{{ p.permalink | safe }}'
-            tabindex="{{ tabindex }}">  {{ p.title }}</a>
+            tabindex="0">  {{ p.title }}</a>
         </span>
       </li>
       {%- endfor -%}
@@ -58,8 +54,7 @@
         {% if subsections %}
         {% for s in subsections -%}
           {% set s = get_section(path=s) -%}
-          {% set fs =  self::fs(root_section=s, tabindex=tabindex, folder=True) %}
-          {% set_global tabindex = fs | split(pat="tabindex") | last | split(pat='"') | nth(n=1) | int %}
+          {% set fs =  self::fs(root_section=s, folder=True) %}
           {{ fs | safe }}
         {% endfor -%}
       {% endif %}
@@ -70,10 +65,9 @@
 {% else %}
 <li>
 <span>└──
-  {% set_global tabindex = tabindex - 1 %}
   <a {% if section and root_section == section -%}class="selected"{%- endif -%}
     href='{{root_section.permalink | safe }}'
-    tabindex="{{ tabindex }}">  {{ root_section.title }}
+    tabindex="0">  {{ root_section.title }}
   </a>
 </span>
 
@@ -84,10 +78,9 @@
   {% for p in pages -%}
   <li class="file">
     <span>└──
-      {%- set_global tabindex = tabindex - 1 %}
       <a {% if page and p == page -%}class="selected"{%- endif -%}
         href='{{ p.permalink | safe }}'
-        tabindex="{{ tabindex }}">  {{ p.title }}</a>
+        tabindex="0">  {{ p.title }}</a>
     </span>
   </li>
   {%- endfor -%}
