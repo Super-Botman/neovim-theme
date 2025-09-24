@@ -1,0 +1,21 @@
+{
+  "name": "zola-vite-demo",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "sass-embedded": "^1.93.2",
+    "vite": "^5.4.20"
+  },
+  "scripts": {
+    "vite-serve": "vite serve",
+    "vite-build": "vite build",
+    "build": "export BUILD_MODE=production && mkdir -p content && npm-run-all vite-build zola-build"
+  },
+  "dependencies": {
+    "@webtui/css": "^0.1.5",
+    "js-cookie": "^3.0.5",
+    "react": "^19.1.1",
+    "react-cookie": "^8.0.1",
+    "react-dom": "^19.1.1"
+  }
+}

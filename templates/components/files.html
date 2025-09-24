@@ -1,91 +1,46 @@
 {% block files %}
 <ul>
-  {%- set root_section = get_section(path="_index.md") -%}
+  {%- set root = get_section(path="_index.md") -%}
+  {%- set chars = ["┏", "┣", "┗", "┃",  "━", ] -%}
 
-  {% set pages = root_section.pages | sort(attribute="title")%}
-  {%- for p in pages %}
-  <li class="file">
-    <span><a {% if page and p == page -%}class="selected"{%- endif -%}
-      href='{{ p.permalink | safe }}'
-      tabindex="0">  {{ p.title }}</a></span>
-  </li>
-  {%- endfor -%}
-
-  {% if root_section.subsections %}
-    {{- self::fs(root_section=root_section) -}}
-  {% endif %}
+  {{- self::file(section=root, prefix="", chars=chars) -}}
 </ul>
 {% endblock %}
 
-
-{%- macro fs(root_section, folder=False) -%}
-
-{% if root_section.subsections %}
-
-{% set subsections = root_section.subsections | sort(attribute="") %}
-{%- for s in subsections -%}
-  {%- set s = get_section(path=s) -%}
-
-  {%- if folder -%}
-  <li class="subfolder">
+{%- macro dir(subsections, prefix, chars) -%}
+{%- for section in subsections | sort-%}
+  {%- set section = get_section(path=section) -%}
+  {%- if not loop.last -%}
+    {%- set index = 1 -%}
+    {%- set next_prefix = prefix ~ chars[3] ~ " " -%}
   {%- else -%}
-  <li class="folder">
+    {%- set index = 2 -%}
+    {%- set next_prefix = prefix ~ "  " -%}
   {%- endif -%}
-    <span>{% if folder %}└──{%- endif %}
-      <a {% if section and s == section -%}class="selected"{%- endif -%}
-        href='{{s.permalink | safe }}'
-        tabindex="0">  {{ s.title }}
-      </a>
-    </span>
 
-    <ul>
-      {% set pages = s.pages | sort(attribute="title")%}
-      {% for p in pages -%}
-      <li class="file">
-        <span>└──
-          <a {% if page and p == page -%}class="selected"{%- endif -%}
-            href='{{ p.permalink | safe }}'
-            tabindex="0">  {{ p.title }}</a>
-        </span>
-      </li>
-      {%- endfor -%}
+  <li>{{- prefix -}}{{- chars[index] ~ chars[4]-}}{{- section.title | safe -}}</li>
+  {%- if section.pages or section.subsections -%}
+    {{- self::file(section=section, prefix=next_prefix, chars=chars) -}}
+  {%- endif -%}
 
-      {% set subsections = s.subsections | sort(attribute="") %}
-        {% if subsections %}
-        {% for s in subsections -%}
-          {% set s = get_section(path=s) -%}
-          {% set fs =  self::fs(root_section=s, folder=True) %}
-          {{ fs | safe }}
-        {% endfor -%}
-      {% endif %}
-    </ul>
-  </li>
+{%- endfor -%}
+{%- endmacro dir -%}
+
+
+{%- macro file(section, prefix, chars) -%}
+
+{%- set pages = section.pages | sort(attribute="title") -%}
+{%- for p in pages -%}
+  {%- if prefix == "" -%}
+    {%- set index = 0 -%}
+  {%- elif loop.last and not section.subsections -%}
+    {%- set index = 2 -%}
+  {%- else -%}
+    {%- set index = 1 -%}
+  {%- endif -%}
+
+  <li>{{- prefix -}}{{- chars[index] ~ chars[4] -}} <a href="{{ p.permalink }}">{{- p.title | safe -}}</a></li>
 {%- endfor -%}
 
-{% else %}
-<li>
-<span>└──
-  <a {% if section and root_section == section -%}class="selected"{%- endif -%}
-    href='{{root_section.permalink | safe }}'
-    tabindex="0">  {{ root_section.title }}
-  </a>
-</span>
-
-
-  <ul>
-
-  {% set pages = root_section.pages | sort(attribute="title")%}
-  {% for p in pages -%}
-  <li class="file">
-    <span>└──
-      <a {% if page and p == page -%}class="selected"{%- endif -%}
-        href='{{ p.permalink | safe }}'
-        tabindex="0">  {{ p.title }}</a>
-    </span>
-  </li>
-  {%- endfor -%}
-  </ul>
-</li>
-{% endif %}
-
-{%- endmacro fs -%}
+{{- self::dir(subsections=section.subsections, prefix=prefix, chars=chars) -}}
+{%- endmacro file -%}

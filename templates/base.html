@@ -4,51 +4,46 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ config.extra.blog_name }}</title>
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"
-    integrity="sha256-WCzAhd2P6gRJF9Hv3oOOd+hFJi/QJbv+Azn4CGB8gfY=" crossorigin="anonymous" defer></script>
-  <script src="/js/index.js" defer></script>
-  <script src="/js/prompt.js" defer></script>
-  <script src="/js/keyboard.js" defer></script>
-  <script src="/js/tab.js" defer></script>
-  <script src="/js/commands.js" defer></script>
-  <script src="/js/config.js" defer></script>
-  {%- if config.extra.config_js -%}
-  <script src="/{{ config.extra.config_js }}"></script>
-  {%- endif -%}
-  <link rel="stylesheet" href="/css/base.css">
-
-  {%- if config.extra.custom_css -%}
-  <link rel="stylesheet" href="{{ config.extra.custom_css }}">
-  {%- endif -%}
-  {%- if page -%}
-  <link rel="stylesheet" href="/css/page.css">
-  {%- endif -%}
+  <title>{% block title %}{% endblock title %}</title>
+  <script type="module">
+    import RefreshRuntime from "http://localhost:5173/@react-refresh"
+    RefreshRuntime.injectIntoGlobalHook(window)
+    window.$RefreshReg$ = () => { }
+    window.$RefreshSig$ = () => (type) => type
+    window.__vite_plugin_react_preamble_installed__ = true
+  </script>
+  <script type="module" src="http://localhost:5173/@vite/client"></script>
+  <script type="module" src="http://localhost:5173/js/main.jsx"></script>
 </head>
 
 {%- if config.extra.background_image -%}
+{%- set image = config.extra.background_image -%}
+{%- else -%}
+{%- set image = "/assets/background.jpg" -%}
+{%- endif -%}
 
-<body onkeydown='exec(event)' style='background-image: url("{{ config.extra.background_image }}")'>
-  {%- else -%}
+<body style='background-image: url("{{image}}")'>
+  <div box-="round" shear-="top" id="files">
+    <span is-="badge">File Manager</span>
 
-  <body onkeydown='exec(event)' style='background-image: url("/assets/background.jpg");'>
-    {%- endif -%}
-    <main>
-      <div class="files" id="files" tabindex="0">
-        {%- include "components/files.html" -%}
-      </div>
-      <div class="viewer {% if page -%}page{%- endif -%}" id="viewer" tabindex="0">
-        <div class="tab">
-          {%- include "components/tab.html" -%}
-        </div>
-        <div class="content" id="content">
-          {%- block content -%}{% endblock %}
-        </div>
-      </div>
-      <div class="prompt" id="terminal">
-        {%- include "components/prompt.html" -%}
-      </div>
-    </main>
-  </body>
+    {%- include "components/files.html" -%}
+  </div>
+
+  <div box-="round" shear-="top">
+    <span is-="badge">Tabs</span>
+    <div id="tabs" class="tabs"></div>
+  </div>
+
+  <main box-="round" shear-="top">
+    <span is-="badge">File Content</span>
+    <div class="content" id="content">
+      {%- block content -%}{% endblock %}
+    </div>
+  </main>
+
+  <div id="terminal">
+    {#%- include "components/prompt.html" -%#}
+  </div>
+</body>
 
 </html>

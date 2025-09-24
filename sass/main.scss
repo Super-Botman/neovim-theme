@@ -1,0 +1,40 @@
+@layer base, utils, components;
+@import '@webtui/css/base.css';
+@import '@webtui/css/utils/box.css';
+@import '@webtui/css/components/button.css';
+@import '@webtui/css/components/badge.css';
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/ryanoasis/nerd-fonts@master/css/nerd-fonts-generated.css');
+
+
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono', 'Nerd Font Mono', monospace;
+  font-feature-settings: "liga" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  white-space: pre;
+}
+
+.tabs {
+  a {
+    color: white;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}

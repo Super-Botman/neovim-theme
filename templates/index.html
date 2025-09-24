@@ -1,5 +1,10 @@
 {%- extends "base.html" -%}
 
+{% block title %}
+{%- set page = get_page(path="readme.md") -%}
+{{ page.title }}
+{% endblock title %}
+
 {%- block content -%}
 {%- set page = get_page(path="readme.md") -%}
 {{ page.content | safe }}
