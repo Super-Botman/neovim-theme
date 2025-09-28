@@ -1,0 +1,71 @@
+.simplebar-scrollable-x,
+.simplebar-scrollable-y {
+  margin-left: 15px;
+  margin-right: 12px;
+
+  .simplebar-horizontal {
+    font-size: 15px;
+    overflow: visible;
+    position: relative;
+
+    .simplebar-scrollbar {
+      background-color: var(--text);
+      height: 11px;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    &:has(.simplebar-scrollbar[style*="display: none"]) {
+      display: none;
+    }
+
+    &::before {
+      display: inherit;
+      content: '';
+      position: absolute;
+      left: -13px;
+      top: -50%;
+    }
+
+    &::after {
+      display: inherit;
+      content: '';
+      position: absolute;
+      right: -13px;
+      top: -50%;
+    }
+  }
+
+  .simplebar-vertical {
+    font-size: 15px;
+    overflow: visible;
+    margin-top: 16px;
+    margin-bottom: 15px;
+    width: 11px;
+    display: block;
+
+    .simplebar-scrollbar {
+      background-color: var(--text);
+
+      &::before {
+        display: none;
+      }
+    }
+
+    &::before {
+      display: inherit;
+      content: '';
+      position: absolute;
+      top: -20px;
+    }
+
+    &::after {
+      display: inherit;
+      content: '';
+      position: absolute;
+      bottom: -18px;
+    }
+  }
+}

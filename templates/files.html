@@ -18,7 +18,7 @@
     {%- set next_prefix = prefix ~ "&nbsp;&nbsp;" -%}
   {%- endif -%}
 
-  <li>{{- prefix | safe -}}{{- chars[index] ~ chars[4]-}}{{- section.title | safe -}}</li>
+  <li>{{- prefix | safe -}}{{- chars[index] ~ chars[4]-}}<a href="{{ section.permalink }}" class="folder">{{- section.title | safe -}}</a></li>
   {%- if section.pages or section.subsections -%}
     {{- self::file(section=section, prefix=next_prefix, chars=chars) -}}
   {%- endif -%}
@@ -39,7 +39,7 @@
     {%- set index = 1 -%}
   {%- endif -%}
 
-  <li>{{- prefix | safe -}}{{- chars[index] ~ chars[4] -}} <a href="{{ p.permalink }}">{{- p.title | safe -}}</a></li>
+  <li>{{- prefix | safe -}}{{- chars[index] ~ chars[4] -}} <a href="{{ p.permalink }}" class="file">{{- p.title | safe -}}</a></li>
 {%- endfor -%}
 
 {{- self::dir(subsections=section.subsections, prefix=prefix, chars=chars) -}}

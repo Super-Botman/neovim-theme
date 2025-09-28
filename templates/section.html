@@ -1,17 +1,17 @@
 {%- extends "base.html" -%}
 
 {%- block content -%}
-<ul class="section">
-  <li class="section"><a href='../' tabindex="0">../</a></li>
-  <li class="section"><a class="selected" href='./' tabindex="0">./</a></li>
+<ul class="files">
+  <li class="folder"><a href='../' tabindex="0">../</a></li>
+  <li class="folder"><a class="selected" href='./' tabindex="0">./</a></li>
 
   {%- for section in section.subsections -%}
   {%- set section = get_section(path=section) -%}
-  <li class="section"><a href='{{ section.permalink | safe }}' tabindex="0">{{ section.title }}/ </a></li>
+  <li class="folder"><a href='{{ section.permalink | safe }}' tabindex="0">{{ section.title }}/ </a></li>
   {%- endfor -%}
 
   {%- for page in section.pages -%}
-  <li class="post"><a href='{{ page.permalink | safe }}' tabindex="0">{{ page.title }}</a></li>
+  <li class="file"><a href='{{ page.permalink | safe }}' tabindex="0">{{ page.title }}</a></li>
   {%- endfor -%}
 </ul>
 {%- endblock content -%}

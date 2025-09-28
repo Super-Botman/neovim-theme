@@ -35,25 +35,26 @@
 {#%- endif -%#}
 
 <body>
-  <div box-="round" shear-="top" id="files" class="files focusable">
+  <div box-="round" shear-="top" id="files-wrapper" style="display: none;">
     <span is-="badge">File Manager</span>
-    {%- include "files.html" -%}
+    <div class="files" id="files" class="files" tabindex="0">
+      {%- include "files.html" -%}
+    </div>
   </div>
 
-  <div box-="round" shear-="top" class="focusable">
+  <div box-="round" shear-="top" id="tabs-wrapper">
     <span is-="badge">Tabs</span>
-    <div id="tabs" class="tabs"></div>
+    <div id="tabs" class="tabs focusable" tabindex="0"></div>
   </div>
 
-  <div box-="round" shear-="top">
+  <div box-="round" shear-="top" id="content-wrapper">
     <span is-="badge">File Content</span>
-    <div class="content focusable" id="content">
+    <div class="content focusable" id="content" tabindex="0">
       {%- block content -%}{% endblock %}
     </div>
   </div>
 
-  <div id="terminal" box-="round" shear-="top">
-    <span is-="badge">Terminal</span>
+  <div contenteditable box-="round" id="terminal">
   </div>
 </body>
 

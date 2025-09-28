@@ -65,7 +65,7 @@ function TabsComponent() {
 export default function Tabs() {
   return (
     <CookiesProvider>
-      <SimpleBar forceVisible="x" scrollbarMaxSize={0}>
+      <SimpleBar forceVisible="x">
         <TabsComponent />
       </SimpleBar >
     </CookiesProvider >

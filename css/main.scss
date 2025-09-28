@@ -5,94 +5,100 @@
 @import '@webtui/css/base.css';
 @import '@webtui/css/utils/box.css';
 @import '@webtui/css/components/button.css';
+@import '@webtui/css/components/input.css';
 @import '@webtui/css/components/badge.css';
 
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
+@import 'scrollbar.scss';
+
 *:focus {
-  background: red;
+  //background: red;
 }
 
+html,
 body {
   margin: 0;
   font-family: 'JetBrains Mono', monospace, "Symbols Nerd Font";
   font-feature-settings: "liga" 1, "calt" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+
+#files-wrapper {
+  position: absolute;
+  background-color: var(--background0);
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .files {
+
+  &.files,
   ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     line-height: 1;
     white-space: pre;
+    min-width: 50vw;
+    min-height: 50vh;
+    padding-top: 20px;
+    padding-left: 10px;
+    font-size: 1.1em;
 
-    li {
+    .file {
       margin: 0;
-      padding: 0;
+      padding: 3px;
+      color: var(--green);
+
+      &::before {
+        content: ' ';
+      }
+    }
+
+    .folder {
+      margin: 0;
+      padding: 3px;
+      color: var(--blue);
+
+      &::before {
+        content: ' ';
+      }
     }
 
     li:hover,
     li:focus {
-      color: var(--base);
       background-color: var(--text);
     }
   }
 }
 
-
-.simplebar-scrollable-x {
-  margin-left: 15px;
-  margin-right: 10px;
-
-  .simplebar-scrollbar {
-    background-color: var(--text);
-    height: 11px;
-
-    &::before {
-      display: none;
-    }
-  }
-
-  .simplebar-track {
-    font-size: 15px;
-    overflow: visible;
-    margin-top: 5px;
-    position: relative;
-
-    &:has(.simplebar-scrollbar[style*="display: none"]) {
-      display: none;
-    }
-
-    &::before {
-      display: inherit;
-      content: '';
-      position: absolute;
-      left: -13px;
-      top: -50%;
-    }
-
-    &::after {
-      display: inherit;
-      content: '';
-      position: absolute;
-      right: -13px;
-      top: -50%;
-    }
-  }
+#tabs-wrapper {
+  flex-shrink: 0;
 }
 
 .tabs {
+  flex-shrink: 0;
   margin-top: 10px;
   width: 100%;
   white-space: nowrap;
+
+  .simplebar-horizontal {
+    margin-top: 5px;
+  }
 
   .tab {
     margin-right: 10px;
@@ -121,10 +127,35 @@ a {
   }
 }
 
+#content-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
 .content {
-  height: 50vh;
-  overflow: scroll;
-  padding: 10px;
+  height: 100%;
+  max-height: 100%;
+  clip-path: inset(0 0 12px 0);
+  padding-bottom: 20px;
+  text-wrap: wrap;
+
+  pre {
+    overflow: scroll;
+  }
+
+  .simplebar-wrapper {
+    height: calc(100% - 10px);
+  }
+
+  .simplebar-horizontal {
+    margin-right: 25px;
+  }
+
+
+  img {
+    max-width: calc(100% - 20px);
+  }
 
   h1,
   h2,
@@ -133,7 +164,6 @@ a {
     margin-bottom: 10px;
   }
 
-  h1,
   a,
   a::before {
     color: #82aaff;
@@ -146,18 +176,33 @@ a {
 
   h2,
   h2::before {
-    color: #ffc777;
     content: '## ';
   }
 
   h3,
   h3::before {
-    color: #c3e88d;
     content: '### ';
+  }
+
+  ul.files {
+
+    h1,
+    h2,
+    h3,
+    a {
+      color: inherit;
+    }
+
+    h1::before,
+    h2::before,
+    h3::before,
+    a::before {
+      content: none;
+      color: inherit;
+    }
   }
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
+#terminal {
+  flex-shrink: 0;
 }
