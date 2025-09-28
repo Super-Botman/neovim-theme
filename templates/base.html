@@ -1,10 +1,21 @@
+{% set build_mode = get_env(name="BUILD_MODE", default="development") %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-webtui-theme="catppuccin-mocha">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}{% endblock title %}</title>
+  <title>{%- block title %}{% endblock title %}</title>
+  <link rel="stylesheet" href="//unpkg.com/@catppuccin/highlightjs@1.0.1/css/catppuccin-mocha.css">
+
+  {%- if build_mode == "production" -%}
+  {%- set manifest = load_data(path="themes/neovim-theme/static/bundle/.vite/manifest.json") -%}
+  {%- for css in manifest["js/main.jsx"]["css"] -%}
+  <link rel="stylesheet" href="bundle/{{ css }}" />
+  {%- endfor -%}
+
+  <script type="module" src="bundle/{{ manifest[" js/main.jsx"]["file"] }}" defer></script>
+  {%- else -%}
   <script type="module">
     import RefreshRuntime from "http://localhost:5173/@react-refresh"
     RefreshRuntime.injectIntoGlobalHook(window)
@@ -14,35 +25,35 @@
   </script>
   <script type="module" src="http://localhost:5173/@vite/client"></script>
   <script type="module" src="http://localhost:5173/js/main.jsx"></script>
+  {%- endif -%}
 </head>
 
-{%- if config.extra.background_image -%}
-{%- set image = config.extra.background_image -%}
-{%- else -%}
-{%- set image = "/assets/background.jpg" -%}
-{%- endif -%}
+{#%- if config.extra.background_image -%#}
+{#%- set image = config.extra.background_image -%#}
+{#%- else -%#}
+{#%- set image = "/assets/background.jpg" -%#}
+{#%- endif -%#}
 
-<body style='background-image: url("{{image}}")'>
-  <div box-="round" shear-="top" id="files">
+<body>
+  <div box-="round" shear-="top" id="files" class="files focusable">
     <span is-="badge">File Manager</span>
-
-    {%- include "components/files.html" -%}
+    {%- include "files.html" -%}
   </div>
 
-  <div box-="round" shear-="top">
+  <div box-="round" shear-="top" class="focusable">
     <span is-="badge">Tabs</span>
     <div id="tabs" class="tabs"></div>
   </div>
 
-  <main box-="round" shear-="top">
+  <div box-="round" shear-="top">
     <span is-="badge">File Content</span>
-    <div class="content" id="content">
+    <div class="content focusable" id="content">
       {%- block content -%}{% endblock %}
     </div>
-  </main>
+  </div>
 
-  <div id="terminal">
-    {#%- include "components/prompt.html" -%#}
+  <div id="terminal" box-="round" shear-="top">
+    <span is-="badge">Terminal</span>
   </div>
 </body>
 

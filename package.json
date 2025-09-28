@@ -13,9 +13,13 @@
   },
   "dependencies": {
     "@webtui/css": "^0.1.5",
+    "@webtui/plugin-nf": "^0.1.1",
+    "@webtui/theme-catppuccin": "^0.0.3",
     "js-cookie": "^3.0.5",
     "react": "^19.1.1",
     "react-cookie": "^8.0.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-hotkeys-hook": "^5.1.0",
+    "simplebar-react": "^3.3.2"
   }
 }

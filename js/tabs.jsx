@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
 import { CookiesProvider, useCookies } from 'react-cookie';
+import SimpleBar from 'simplebar-react';
+import 'simplebar-react/dist/simplebar.min.css';
 
-function Tab(title, path, id) {
+function Tab({ title, path, id, onClose }) {
+  function closeTab() {
+    onClose(id);
+  }
+
   return (
-    <span key={id} is-="badge" cap-="round">
-      <a href={path}>{title}</a>
-    </span>
+    <div key={id} is-="badge" className={path === window.location.pathname ? "selected tab" : "tab"}>
+      <a href={path}>
+        {title}
+      </a>
+      <span onClick={closeTab}>x</span>
+    </div>
   );
 }
 
@@ -14,24 +23,41 @@ function TabsComponent() {
   const [tabs, setTabs] = useState([]);
 
   useEffect(() => {
-    let tab = { title: document.title, path: window.location.pathname, id: 0 };
-    const existingTabs = cookies.tabs || [];
+    console.log("called")
+    let savedTabs = cookies.tabs ? cookies.tabs : [];
 
-    if (!existingTabs.some(t => t.path === new URL(document.location.href).pathname)) {
-      tab.id = existingTabs.length > 0 ? existingTabs[existingTabs.length - 1].id + 1 : 0;
-      const updatedTabs = [...existingTabs, tab];
-      setTabs(updatedTabs);
-      setCookie('tabs', updatedTabs);
-    } else {
-      setTabs(existingTabs);
+    let tab = {
+      title: document.title,
+      path: window.location.pathname,
+      id: Date.now()
+    };
+
+    if (!savedTabs.some(t => t.title === tab.title)) {
+      savedTabs.push(tab);
+      setCookie('tabs', savedTabs, { path: '/' });
     }
+
+    setTabs(savedTabs);
   }, []);
 
-  const tabList = tabs.map(tab => Tab(tab.title, tab.path, tab.id));
+  const closeTab = (id) => {
+    const updatedTabs = tabs.filter(t => t.id !== id);
+    setTabs(updatedTabs);
+    setCookie('tabs', updatedTabs, { path: '/' });
+    if (!updatedTabs.some(t => t.title === document.title)) document.location = '/'
+  };
 
   return (
     <>
-      {tabList}
+      {tabs.map(tab => (
+        <Tab
+          key={tab.id}
+          title={tab.title}
+          path={tab.path}
+          id={tab.id}
+          onClose={closeTab}
+        />
+      ))}
     </>
   );
 }
@@ -39,7 +65,9 @@ function TabsComponent() {
 export default function Tabs() {
   return (
     <CookiesProvider>
-      <TabsComponent />
-    </CookiesProvider>
-  );
+      <SimpleBar forceVisible="x" scrollbarMaxSize={0}>
+        <TabsComponent />
+      </SimpleBar >
+    </CookiesProvider >
+  )
 }

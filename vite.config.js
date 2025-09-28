@@ -8,4 +8,23 @@ export default defineConfig({
       jsxImportSource: "react",
     }),
   ],
+  build: {
+    manifest: true,
+    rollupOptions: {
+      input: "./js/main.jsx",
+    },
+    outDir: "static/bundle",
+    assetsDir: "",
+    minify: true,
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern-compiler", // or "modern"
+      },
+    },
+  },
+
+  publicDir: false,
+  clearScreen: false,
 });
