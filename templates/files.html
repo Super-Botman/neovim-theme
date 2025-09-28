@@ -1,0 +1,46 @@
+{% block files %}
+<ul>
+  {%- set root = get_section(path="_index.md") -%}
+  {%- set chars = ["┏", "┣", "┗", "┃",  "━", ] -%}
+
+  {{- self::file(section=root, prefix="", chars=chars) -}}
+</ul>
+{% endblock %}
+
+{%- macro dir(subsections, prefix, chars) -%}
+{%- for section in subsections | sort-%}
+  {%- set section = get_section(path=section) -%}
+  {%- if not loop.last -%}
+    {%- set index = 1 -%}
+    {%- set next_prefix = prefix ~ chars[3] ~ "&nbsp;&nbsp;" -%}
+  {%- else -%}
+    {%- set index = 2 -%}
+    {%- set next_prefix = prefix ~ "&nbsp;&nbsp;" -%}
+  {%- endif -%}
+
+  <li>{{- prefix | safe -}}{{- chars[index] ~ chars[4]-}}{{- section.title | safe -}}</li>
+  {%- if section.pages or section.subsections -%}
+    {{- self::file(section=section, prefix=next_prefix, chars=chars) -}}
+  {%- endif -%}
+
+{%- endfor -%}
+{%- endmacro dir -%}
+
+
+{%- macro file(section, prefix, chars) -%}
+
+{%- set pages = section.pages | sort(attribute="title") -%}
+{%- for p in pages -%}
+  {%- if prefix == "" -%}
+    {%- set index = 0 -%}
+  {%- elif loop.last and not section.subsections -%}
+    {%- set index = 2 -%}
+  {%- else -%}
+    {%- set index = 1 -%}
+  {%- endif -%}
+
+  <li>{{- prefix | safe -}}{{- chars[index] ~ chars[4] -}} <a href="{{ p.permalink }}">{{- p.title | safe -}}</a></li>
+{%- endfor -%}
+
+{{- self::dir(subsections=section.subsections, prefix=prefix, chars=chars) -}}
+{%- endmacro file -%}

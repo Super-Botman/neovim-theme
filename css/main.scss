@@ -1,0 +1,163 @@
+@use '@webtui/plugin-nf';
+@use '@webtui/theme-catppuccin';
+
+@layer base, utils, components;
+@import '@webtui/css/base.css';
+@import '@webtui/css/utils/box.css';
+@import '@webtui/css/components/button.css';
+@import '@webtui/css/components/badge.css';
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+*:focus {
+  background: red;
+}
+
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace, "Symbols Nerd Font";
+  font-feature-settings: "liga" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.files {
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    white-space: pre;
+
+    li {
+      margin: 0;
+      padding: 0;
+    }
+
+    li:hover,
+    li:focus {
+      color: var(--base);
+      background-color: var(--text);
+    }
+  }
+}
+
+
+.simplebar-scrollable-x {
+  margin-left: 15px;
+  margin-right: 10px;
+
+  .simplebar-scrollbar {
+    background-color: var(--text);
+    height: 11px;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .simplebar-track {
+    font-size: 15px;
+    overflow: visible;
+    margin-top: 5px;
+    position: relative;
+
+    &:has(.simplebar-scrollbar[style*="display: none"]) {
+      display: none;
+    }
+
+    &::before {
+      display: inherit;
+      content: '';
+      position: absolute;
+      left: -13px;
+      top: -50%;
+    }
+
+    &::after {
+      display: inherit;
+      content: '';
+      position: absolute;
+      right: -13px;
+      top: -50%;
+    }
+  }
+}
+
+.tabs {
+  margin-top: 10px;
+  width: 100%;
+  white-space: nowrap;
+
+  .tab {
+    margin-right: 10px;
+    color: var(--surface2);
+
+    span {
+      margin-left: 5px;
+      cursor: pointer;
+      color: var(--badge-text);
+    }
+
+    &.selected {
+      color: var(--badge-text);
+    }
+
+    &:hover {
+
+      &,
+      &::before,
+      &::after {
+        color: var(--badge-color);
+        background: var(--badge-text);
+        background-color: var(--badge-text);
+      }
+    }
+  }
+}
+
+.content {
+  height: 50vh;
+  overflow: scroll;
+  padding: 10px;
+
+  h1,
+  h2,
+  h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  h1,
+  a,
+  a::before {
+    color: #82aaff;
+    content: '󰌹 ';
+  }
+
+  h1::before {
+    content: '# ';
+  }
+
+  h2,
+  h2::before {
+    color: #ffc777;
+    content: '## ';
+  }
+
+  h3,
+  h3::before {
+    color: #c3e88d;
+    content: '### ';
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}

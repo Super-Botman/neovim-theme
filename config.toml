@@ -1,0 +1,5 @@
+compile_sass = false
+minify_html = true
+
+[markdown]
+highlight_code = false
