@@ -35,7 +35,7 @@ blog_name = "name"
 #####################
 
 # set the background image u want
-background-image = "assets/background.jpg"
+background_image = "/assets/background.jpg"
 
 # this parameter allow you to configure specific init functions/shortcuts and commands
 # the value has to be the path of you're config.js file
