@@ -4,14 +4,8 @@
 }
 
 :root {
-  --bg-color: rgba(32, 32, 42, 0.8);
+  --bg-color: #20202A;
   --font-color: #cdd6f4;
-}
-
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #dc8add var(--bg-color);
 }
 
 html {
@@ -43,16 +37,18 @@ body {
       box-shadow: 0px 3px 0px 0px var(--font-color) !important;
       position: relative;
     }
+
     .tab>ul>li>a {
       align-content: center;
     }
 
     .file-manager {
+      background-color: var(--bg-color);
       right: 0;
       top: 0;
       bottom: 0;
       position: absolute;
-      width: 2em;
+      width: 1.6em;
       padding-left: 0.5em;
       box-shadow: -3px 0px 0px 0px var(--font-color);
       align-content: center;
@@ -105,7 +101,7 @@ body {
     box-shadow: 3px 0px 0px 0px var(--font-color);
     overflow-x: scroll;
   }
-  
+
   .file-manager {
     display: none;
   }
@@ -113,11 +109,8 @@ body {
 
 main {
   overflow: clip;
-  height: 98vh;
-  width: 98vw;
-  margin-top: 1vh;
-  margin-left: 1vw;
-  border-radius: 20px;
+  height: 100vh;
+  width: 100vw;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -166,13 +159,49 @@ main {
         margin-right: 100vw;
       }
 
-      pre{
+      pre {
         background-color: var(--bg-color) !important;
         padding: 10px;
         width: calc(100% - 40px);
       }
 
-      code, 
+      table {
+        border-collapse: collapse;
+        margin: 1.5em 0;
+        width: 95%;
+        font-size: 0.9em;
+        border: 1px solid rgba(205, 214, 244, 0.2);
+
+        thead {
+          background-color: rgba(130, 170, 255, 0.1);
+
+          th {
+            color: #82aaff;
+            text-align: left;
+            padding: 12px 15px;
+            font-weight: 600;
+            border-bottom: 2px solid #82aaff;
+          }
+        }
+
+        tbody {
+          tr {
+            border: 1px solid rgba(205, 214, 244, 0.1);
+
+            &:hover {
+              background-color: rgba(66, 135, 245, 0.15);
+            }
+          }
+
+          td {
+            border: 1px solid rgba(205, 214, 244, 0.1);
+            padding: 10px 15px;
+            color: var(--font-color);
+          }
+        }
+      }
+
+      code,
       blockquote {
         background-color: var(--bg-color) !important;
         width: calc(100% - 50px);
@@ -182,7 +211,7 @@ main {
         position: relative;
       }
 
-      pre>code{
+      pre>code {
         background-color: transparent !important;
         color: var(--font-color);
       }
@@ -193,7 +222,7 @@ main {
         background-color: #b7c2fd40 !important;
         color: #b7c2fd;
       }
-      
+
       blockquote::before {
         background-color: #82aaff;
         width: 3.5px;
@@ -317,11 +346,12 @@ main {
     padding-top: 15px;
 
     ul:not(:empty) {
-      padding-left: 0.2em;
+      padding: 0;
       margin: 0;
     }
 
     span {
+      white-space: pre;
       padding: 0;
       margin: 0;
     }
@@ -329,10 +359,6 @@ main {
     li {
       padding-left: 0;
       margin: 0;
-    }
-
-    li>ul>.file {
-      padding-left: 2.5em;
     }
 
     a {
