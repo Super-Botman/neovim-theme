@@ -4,33 +4,35 @@ title="README"
 
 # README
 
-## Table of content
+A quick reference for every shortcut and command in this file browser.
 
-* [1. Shortcuts](#shortcuts)
-* [2. Commands](#commands)
+## Table of Contents
+
+- [1. Shortcuts](#shortcuts)
+- [2. Commands](#commands)
 
 ## Shortcuts
 
-`shift+h/l` to switch from file browser to file viewer 
-
-`j/k` to scroll through the file content 
-
-`j/k` to go through files in file browser 
-
-`enter` to open the currently selected file 
-
-`esc+command` see [## Commands](#Commands) 
-
-`shift+t/enter` to open the file in a new tab 
-
-`tab` to go to the next tab 
-
-`shift+q` to close the current tab 
+| Key       | Action                                                                                      |
+| --------- | ------------------------------------------------------------------------------------------- |
+| `shift+l` | Switch focus to the file viewer                                                             |
+| `shift+h` | Switch focus to the file browser                                                            |
+| `j`       | Scroll down a file, or select the next file in the browser                                  |
+| `k`       | Scroll up a file, or select the previous file in the browser                                |
+| `l`       | Scroll right                                                                                |
+| `h`       | Scroll left                                                                                 |
+| `enter`   | Open the selected file — or run a command, if you're typing one (see [Commands](#commands)) |
+| `esc`     | Focus the command prompt                                                                    |
+| `shift+t` | Open the selected file or folder in a new tab                                               |
+| `shift+q` | Close the current tab                                                                       |
+| `tab`     | Move to the next link on the page (standard browser behavior)                               |
 
 ## Commands
 
-`:help` to show this page
+Press `esc` to focus the prompt, then type a command below.
 
-`:q` exit website
-
-`:set mouse=true|false` to set the mouse (true=showed, false=hidden)
+| Command                  | Description                                      |
+| ------------------------ | ------------------------------------------------ |
+| `:help`                  | Show this page                                   |
+| `:q`                     | Leave the site                                   |
+| `:set mouse=true\|false` | Show (`true`) or hide (`false`) the mouse cursor |

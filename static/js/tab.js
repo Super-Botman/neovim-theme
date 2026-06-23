@@ -2,21 +2,14 @@ function new_tab(element, is_enter, goto_link = true) {
   const a = element.getElementsByClassName("selected")[0];
   if (!a) return;
 
-  let name;
-  if (element.id == "content") {
-    name = a.textContent.replace("/", "");
-  } else {
-    name = a.textContent.split(" ");
-    name.shift();
-    name = name.join(" ");
-  }
+  let name = a.textContent
 
   const page = {
     link: a.href,
     name: name,
   };
 
-  tabs = JSON.parse(Cookies.get("tabs"));
+  tabs = JSON.parse(localStorage.getItem("tabs"));
 
   check = tabs.find((t) => t.link == page.link);
   if (check) {
@@ -26,7 +19,7 @@ function new_tab(element, is_enter, goto_link = true) {
 
   tabs = is_enter ? tabs.filter((p) => p.link !== window.location.href) : tabs;
   tabs.push(page);
-  Cookies.set("tabs", JSON.stringify(tabs));
+  localStorage.setItem("tabs", JSON.stringify(tabs));
 
   if (goto_link) window.location.href = page.link;
 }
@@ -45,10 +38,10 @@ function del_tab(event) {
     name: a.innerText,
   };
 
-  tabs = JSON.parse(Cookies.get("tabs"));
+  tabs = JSON.parse(localStorage.getItem("tabs"));
   const new_tabs = tabs.filter((p) => p.link !== page.link);
   tabs = new_tabs.length > 0 ? new_tabs : tabs;
-  Cookies.set("tabs", JSON.stringify(tabs));
+  localStorage.setItem("tabs", JSON.stringify(tabs));
 
   if (!event || page.link == window.location.href) {
     window.location.href = tabs[tabs.length - 1].link;
@@ -82,7 +75,7 @@ function next_tab() {
 function render_tabs() {
   new_tab(document.getElementById("files"), false, false);
 
-  const tabs = JSON.parse(Cookies.get("tabs"));
+  const tabs = JSON.parse(localStorage.getItem("tabs"));
   const tabs_container = document.getElementById("tabs");
   tabs_container.replaceChildren();
 

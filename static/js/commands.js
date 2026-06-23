@@ -6,32 +6,13 @@ function command() {
   input.shift();
   const args = input.join("").replace(" ", "").split("=");
 
-  if (
-    typeof commands != "undefined" &&
-    typeof commands[command] === "function"
-  ) {
-    commands[command](command);
-  }
-
-  switch (command) {
-    case "help":
-      window.location.href = "/readme";
-      break;
-
-    case "set":
-      const success = set(args);
-      setter.value = JSON.stringify(success);
-      break;
-
-    case "q":
-      window.location.href = "https://search.ononoki.org";
-      break;
-
-    default:
-      setter.value = JSON.stringify({
-        type: "error",
-        message: "command not found",
-      });
+  if (typeof commands[command] === "function") {
+    commands[command](args, setter, writer);
+  } else {
+    setter.value = JSON.stringify({
+      type: "error",
+      message: "command not found",
+    });
   }
 }
 
@@ -55,9 +36,9 @@ function set(args) {
     return error;
   }
 
-  let config = JSON.parse(Cookies.get("config"));
+  let config = JSON.parse(localStorage.getItem("config"));
   config[param] = value;
-  Cookies.set("config", JSON.stringify(config));
+  localStorage.setItem("config", JSON.stringify(config));
 
   exec_config();
   return success;

@@ -11,91 +11,11 @@ function exec(event) {
 
   element = is_viewer ? document.getElementById("content") : element;
 
-  if (event.shiftKey) {
-    if (
-      typeof keys.shortcut != "undefined" &&
-      typeof keys.shortcut[key] === "function"
-    ) {
-      keys.shortcut[key](event, element);
-      return;
-    }
+  const context = { is_page, is_viewer, is_files, is_prompt };
+  const map = event.shiftKey ? keys.shortcut : keys.normal;
 
-    switch (key) {
-      case "l":
-        document.getElementById("viewer").focus();
-        Cookies.set("focused", "viewer");
-        break;
-
-      case "h":
-        document.getElementById("files").focus();
-        Cookies.set("focused", "files");
-        break;
-
-      case "t":
-        new_tab(element);
-        break;
-
-      case "q":
-        del_tab();
-        break;
-    }
-  } else {
-    if (
-      typeof keys.normal != "undefined" &&
-      typeof keys.normal[key] === "function"
-    ) {
-      keys.normal[key](event, element);
-      return;
-    }
-
-    switch (key) {
-      case "escape":
-        document.getElementById("setter").focus();
-        document.getElementById("setter").value = "";
-        break;
-
-      case "enter":
-        if (is_prompt) {
-          command();
-        } else {
-          new_tab(element, true);
-        }
-        break;
-
-      case "tab":
-        if (is_viewer) {
-          next_tab();
-        }
-        break;
-
-      case "j":
-        if (is_viewer && is_page) {
-          element.scrollBy(0, 30);
-        } else if (!is_prompt) {
-          next_file(-1, element);
-        }
-        break;
-
-      case "k":
-        if (is_viewer && is_page) {
-          element.scrollBy(0, -30);
-        } else if (!is_prompt) {
-          next_file(1, element);
-        }
-        break;
-
-      case "l":
-        if (!is_prompt) {
-          element.scrollBy(30, 0);
-        }
-        break;
-
-      case "h":
-        if (!is_prompt) {
-          element.scrollBy(-30, 0);
-        }
-        break;
-    }
+  if (typeof map[key] === "function") {
+    map[key](event, element, context);
   }
 }
 
