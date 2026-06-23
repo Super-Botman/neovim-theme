@@ -1,98 +1,42 @@
 {% block files %}
 <ul>
   {%- set root_section = get_section(path="_index.md") -%}
-  {% set_global tabindex = -1 %}
-
-  {% set pages = root_section.pages | sort(attribute="title")%}
-  {%- for p in pages %}
-  {%- set_global tabindex = tabindex - 1 -%}
-  <li class="file">
-    <span><a {% if page and p == page -%}class="selected"{%- endif -%}
-      href='{{ p.permalink | safe }}'
-      tabindex="{{ tabindex }}">  {{ p.title }}</a></span>
-  </li>
-  {%- endfor -%}
-
-  {% if root_section.subsections %}
-    {{- self::fs(root_section=root_section, tabindex=tabindex) -}}
-  {% endif %}
+  {%- set_global tabindex = -1 -%}
+  {{ self::tree(section=root_section, tabindex=tabindex, prefix="") }}
 </ul>
 {% endblock %}
 
+{%- macro tree(section, tabindex, prefix="") -%}
+  {%- set pages = section.pages -%}
+  {%- set subsections = section.subsections -%}
+  {%- set has_subsections = subsections | length > 0 -%}
 
-{%- macro fs(root_section, tabindex, folder=False) -%}
-
-{% if root_section.subsections %}
-
-{% set subsections = root_section.subsections | sort(attribute="") %}
-{%- for s in subsections -%}
-  {%- set s = get_section(path=s) -%}
-
-  {%- if folder -%}
-  <li class="subfolder">
-  {%- else -%}
-  <li class="folder">
-  {%- endif -%}
-    <span>{% if folder %}└──{%- endif %}
-      {% set_global tabindex = tabindex - 1 %}
-      <a {% if section and s == section -%}class="selected"{%- endif -%}
-        href='{{s.permalink | safe }}'
-        tabindex="{{ tabindex }}">  {{ s.title }}
-      </a>
-    </span>
-
-    <ul>
-      {% set pages = s.pages | sort(attribute="title")%}
-      {% for p in pages -%}
-      <li class="file">
-        <span>└──
-          {%- set_global tabindex = tabindex - 1 %}
-          <a {% if page and p == page -%}class="selected"{%- endif -%}
-            href='{{ p.permalink | safe }}'
-            tabindex="{{ tabindex }}">  {{ p.title }}</a>
-        </span>
-      </li>
-      {%- endfor -%}
-
-      {% set subsections = s.subsections | sort(attribute="") %}
-        {% if subsections %}
-        {% for s in subsections -%}
-          {% set s = get_section(path=s) -%}
-          {% set fs =  self::fs(root_section=s, tabindex=tabindex, folder=True) %}
-          {% set_global tabindex = fs | split(pat="tabindex") | last | split(pat='"') | nth(n=1) | int %}
-          {{ fs | safe }}
-        {% endfor -%}
-      {% endif %}
-    </ul>
-  </li>
-{%- endfor -%}
-
-{% else %}
-<li>
-<span>└──
-  {% set_global tabindex = tabindex - 1 %}
-  <a {% if section and root_section == section -%}class="selected"{%- endif -%}
-    href='{{root_section.permalink | safe }}'
-    tabindex="{{ tabindex }}">  {{ root_section.title }}
-  </a>
-</span>
-
-
-  <ul>
-
-  {% set pages = root_section.pages | sort(attribute="title")%}
-  {% for p in pages -%}
-  <li class="file">
-    <span>└──
-      {%- set_global tabindex = tabindex - 1 %}
-      <a {% if page and p == page -%}class="selected"{%- endif -%}
-        href='{{ p.permalink | safe }}'
-        tabindex="{{ tabindex }}">  {{ p.title }}</a>
-    </span>
-  </li>
+  {%- for p in pages -%}
+    {%- set_global tabindex = tabindex - 1 -%}
+    {%- set is_last = loop.last and not has_subsections -%}
+    <li class="file">
+    <span>{{ prefix }}{% if is_last %}└── {% else %}├── {% endif %}<a{% if page and p == page %} class="selected"{% endif %} href="{{ p.permalink | safe }}" tabindex="{{ tabindex }}">{{ p.title }}</a></span>
+    </li>
   {%- endfor -%}
-  </ul>
-</li>
-{% endif %}
 
-{%- endmacro fs -%}
+  {%- for sp in subsections -%}
+    {%- set s = get_section(path=sp) -%}
+    {%- set_global tabindex = tabindex - 1 -%}
+    {%- set is_last = loop.last -%}
+
+    {%- if is_last -%}
+      {%- set child_prefix = prefix ~ "    " -%}
+    {%- else -%}
+      {%- set child_prefix = prefix ~ "│   " -%}
+    {%- endif -%}
+
+    <li class="folder">
+    <span>{{ prefix }}{% if is_last %}└── {% else %}├── {% endif %}<a{% if section and s == section %} class="selected"{% endif %} href="{{ s.permalink | safe }}" tabindex="{{ tabindex }}">{{ s.title }}</a></span>
+    <ul>
+        {%- set rendered = self::tree(section=s, tabindex=tabindex, prefix=child_prefix) -%}
+        {%- set_global tabindex = rendered | split(pat='tabindex="') | last | split(pat='"') | first | int -%}
+        {{ rendered | safe }}
+      </ul>
+    </li>
+  {%- endfor -%}
+{%- endmacro tree -%}

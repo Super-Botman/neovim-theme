@@ -1,12 +1,11 @@
-# Neovim like theme 
+# Neovim like theme
 
-Neovim theme is a neovim like theme for zola.
+![image](./screenshot.png)
 
-![image](https://github.com/user-attachments/assets/0317c951-4975-4150-ac43-7faf4c57aa8b)
-
-exemple: [https://super-botman.github.io](https://super-botman.github.io)
+Live demo: [https://0xb0tm4n.org](https://0xb0tm4n.org)
 
 ## Installation
+
 ```bash
 cd themes
 git clone https://github.com/Super-Botman/neovim-theme.git
@@ -33,9 +32,6 @@ blog_name = "name"
 #####################
 # Optional settings #
 #####################
-
-# set the background image u want
-background_image = "/assets/background.jpg"
 
 # this parameter allow you to configure specific init functions/shortcuts and commands
 # the value has to be the path of you're config.js file
